@@ -1,128 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Link Organizer</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wedding Venue Showcase</title>
   <style>
-    /* Reset and base styling */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    }
+    /* Base Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #f5f5f7; color: #1d1d1f; }
+    a { color: #0071e3; text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
-    body {
-      background-color: #f5f5f7;
-      color: #1d1d1f;
-      padding: 40px;
-    }
+    /* Container */n    .container { max-width: 1200px; margin: auto; padding: 0 20px; }
 
-    h1 {
-      text-align: center;
-      font-size: 2.5rem;
-      margin-bottom: 40px;
-    }
+    /* Section 1: Hero */
+    .hero { text-align: center; padding: 80px 0; background: #fff; border-bottom: 1px solid #e0e0e0; }
+    .hero h1 { font-size: 3rem; margin-bottom: 20px; }
+    .hero p { font-size: 1.25rem; color: #6e6e73; margin-bottom: 40px; }
+    .branches { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
+    .branch-card { width: 200px; background: #fafafa; border-radius: 20px; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: transform 0.2s; }
+    .branch-card:hover { transform: translateY(-5px); }
+    .branch-card img { width: 100%; border-radius: 12px; margin-bottom: 15px; }
+    .branch-card h3 { font-size: 1.1rem; font-weight: 600; }
 
-    .container {
-      max-width: 960px;
-      margin: auto;
-    }
+    /* Section 2: Horizontal slider */
+    .slider-section { padding: 60px 0; }
+    .slider-section h2 { font-size: 2rem; margin-bottom: 20px; }
+    .slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 20px; padding-bottom: 10px; }
+    .slide { flex: 0 0 300px; background: #fff; border-radius: 20px; scroll-snap-align: start; box-shadow: 0 5px 15px rgba(0,0,0,0.05); position: relative; }
+    .slide img { width: 100%; border-top-left-radius: 20px; border-top-right-radius: 20px; }
+    .slide .info { padding: 20px; }
+    .slide .info h3 { font-size: 1.25rem; margin-bottom: 10px; }
+    .slide .info a { font-size: 1rem; }
 
-    .category {
-      background-color: #ffffff;
-      border-radius: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-      overflow: hidden;
-    }
+    /* Section 3: Feature tabs + modal */
+    .features-section { padding: 60px 0; background: #fff; }
+    .features-section h2 { font-size: 2rem; margin-bottom: 20px; text-align: center; }
+    .tabs { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+    .tab { background: #fafafa; border-radius: 16px; padding: 15px 20px; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.05); transition: background 0.2s; }
+    .tab:hover { background: #f0f0f5; }
+    .tab span { font-size: 1.5rem; }
 
-    .category-header {
-      padding: 20px 30px;
-      font-size: 1.25rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-    }
+    /* Modal */
+    .modal-backdrop { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.4); display: none; justify-content: center; align-items: center; }
+    .modal { background: #fff; border-radius: 16px; width: 90%; max-width: 600px; padding: 30px; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+    .modal h3 { font-size: 1.75rem; margin-bottom: 15px; }
+    .modal p { margin-bottom: 20px; color: #6e6e73; }
+    .modal a { font-size: 1rem; }
+    .modal-close { position: absolute; top: 15px; right: 15px; background: #e0e0e0; border-radius: 50%; width:28px; height:28px; display: flex; justify-content:center; align-items:center; cursor: pointer; }
 
-    .category-header:hover {
-      background-color: #f0f0f5;
-    }
+    /* Footer */
+    footer { background: #fafafa; padding: 40px 0; border-top: 1px solid #e0e0e0; text-align: center; font-size: 0.9rem; color: #6e6e73; }
 
-    .links {
-      display: none;
-      padding: 20px 30px;
-      border-top: 1px solid #e0e0e0;
-    }
-
-    .links a {
-      display: block;
-      margin-bottom: 10px;
-      color: #0071e3;
-      text-decoration: none;
-      font-size: 1rem;
-      word-break: break-all;
-    }
-
-    .links a:hover {
-      text-decoration: underline;
-    }
-
-    .open .links {
-      display: block;
-    }
-
-    @media (max-width: 600px) {
-      .category-header, .links {
-        padding: 15px 20px;
-      }
-    }
+    /* Scrollbar hide */
+    .slider::-webkit-scrollbar { display: none; }
+    .slider { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
 <body>
 
-  <h1>My Link Hub</h1>
-  <div class="container">
-
-    <!-- Category 1 -->
-    <div class="category">
-      <div class="category-header" onclick="this.parentElement.classList.toggle('open')">Content Streams</div>
-      <div class="links">
-        <a href="https://example.com/article1" target="_blank">https://example.com/article1</a>
-        <a href="https://example.com/article2" target="_blank">https://example.com/article2</a>
+  <!-- Section 1 -->
+  <section class="hero">
+    <div class="container">
+      <h1>Celebrate With Us</h1>
+      <p>Discover our exquisite wedding venues across the country.</p>
+      <div class="branches">
+        <div class="branch-card">
+          <img src="branch1.jpg" alt="Elegant Garden">
+          <h3>Serenity Garden</h3>
+        </div>
+        <div class="branch-card">
+          <img src="branch2.jpg" alt="Beachside Bliss">
+          <h3>Coastal Haven</h3>
+        </div>
+        <div class="branch-card">
+          <img src="branch3.jpg" alt="Rustic Barn">
+          <h3>Vintage Barnyard</h3>
+        </div>
       </div>
     </div>
+  </section>
 
-    <!-- Category 2 -->
-    <div class="category">
-      <div class="category-header" onclick="this.parentElement.classList.toggle('open')">Partner Collabs</div>
-      <div class="links">
-        <a href="https://example.com/guestpost1" target="_blank">https://example.com/guestpost1</a>
-        <a href="https://example.com/guestpost2" target="_blank">https://example.com/guestpost2</a>
+  <!-- Section 2 -->
+  <section class="slider-section container">
+    <h2>Our Featured Venues</h2>
+    <div class="slider">
+      <div class="slide">
+        <img src="venue1.jpg" alt="Venue One">
+        <div class="info">
+          <h3>Grand Ballroom</h3>
+          <a href="#" target="_blank">View Details →</a>
+        </div>
       </div>
+      <!-- Repeat .slide blocks -->
     </div>
+  </section>
 
-    <!-- Category 3 -->
-    <div class="category">
-      <div class="category-header" onclick="this.parentElement.classList.toggle('open')">Pulse Points</div>
-      <div class="links">
-        <a href="https://example.com/socialbookmark1" target="_blank">https://example.com/socialbookmark1</a>
-        <a href="https://example.com/socialbookmark2" target="_blank">https://example.com/socialbookmark2</a>
-      </div>
+  <!-- Section 3 -->
+  <section class="features-section container">
+    <h2>Why Choose Us</h2>
+    <div class="tabs">
+      <div class="tab" data-feature="feature1">🎉 Elegant Decor</div>
+      <div class="tab" data-feature="feature2">🍽️ Catering Options</div>
+      <div class="tab" data-feature="feature3">🎶 Live Music</div>
+      <div class="tab" data-feature="feature4">📸 Photography</div>
+      <div class="tab" data-feature="feature5">🛌 Accommodation</div>
+      <div class="tab" data-feature="feature6">🚗 Valet Service</div>
+      <div class="tab" data-feature="feature7">💐 Floral Design</div>
     </div>
+  </section>
 
-    <!-- Add more categories below as needed -->
-    <!-- Duplicate .category divs and rename the headers -->
-
+  <!-- Modal backdrop -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal">
+      <div class="modal-close" id="modalClose">✕</div>
+      <h3 id="modalTitle">Feature Title</h3>
+      <p id="modalDesc">Detailed description of the feature. You can place your link below:</p>
+      <a href="#" id="modalLink" target="_blank">Learn More →</a>
+    </div>
   </div>
 
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Your Wedding Venues · <a href="#">Privacy</a> · <a href="#">Terms of Service</a>
+  </footer>
+
   <script>
-    // Optional enhancement: show link text from URL
-    document.querySelectorAll('.links a').forEach(link => {
-      if (!link.textContent.trim()) {
-        link.textContent = link.href;
-      }
+    // Modal logic
+    const tabs = document.querySelectorAll('.tab');
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const modalClose = document.getElementById('modalClose');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDesc');
+    const modalLink = document.getElementById('modalLink');
+
+    const featureData = {
+      feature1: { title: 'Elegant Decor', desc: 'Experience bespoke decor tailored to your theme.', urlText: 'Explore Decor →', url:'#' },
+      feature2: { title: 'Catering Options', desc: 'Delight guests with a variety of cuisines.', urlText: 'See Menus →', url:'#' },
+      feature3: { title: 'Live Music', desc: 'Enjoy curated performances by top artists.', urlText: 'View Lineup →', url:'#' },
+      feature4: { title: 'Photography', desc: 'Capture memories with professional photographers.', urlText: 'Meet Our Team →', url:'#' },
+      feature5: { title: 'Accommodation', desc: 'Luxurious stays for you and your guests.', urlText: 'Book Rooms →', url:'#' },
+      feature6: { title: 'Valet Service', desc: 'Seamless arrival and departure with valet.', urlText: 'Learn About Valet →', url:'#' },
+      feature7: { title: 'Floral Design', desc: 'Stunning floral arrangements custom created.', urlText: 'View Gallery →', url:'#' }
+    };
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const key = tab.dataset.feature;
+        const data = featureData[key];
+        modalTitle.textContent = data.title;
+        modalDesc.textContent = data.desc;
+        modalLink.textContent = data.urlText;
+        modalLink.href = data.url;
+        modalBackdrop.style.display = 'flex';
+      });
+    });
+    modalClose.addEventListener('click', () => {
+      modalBackdrop.style.display = 'none';
+    });
+    modalBackdrop.addEventListener('click', e => {
+      if (e.target === modalBackdrop) modalBackdrop.style.display = 'none';
+    });
+
+    // Simple horizontal scroll snap IE fix
+    document.querySelectorAll('.slider').forEach(slider => {
+      slider.addEventListener('wheel', evt => {
+        evt.preventDefault();
+        slider.scrollLeft += evt.deltaY;
+      });
     });
   </script>
 
