@@ -1,196 +1,263 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wedding Venue Showcase</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>VRTM Wedding Venues</title>
   <style>
-    /* Base Reset */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #f5f5f7; color: #1d1d1f; }
-    a { color: #0071e3; text-decoration: none; }
-    a:hover { text-decoration: underline; }
+    /* Base reset & fonts */
+    * { margin:0; padding:0; box-sizing:border-box }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background:#f5f5f7; color:#1d1d1f; }
+    h1, h2 { font-weight:600; }
+    p { color:#6e6e73; }
 
-    .container { max-width: 1200px; margin: auto; padding: 0 20px; }
+    .section { padding:60px 20px; }
+    .container { max-width:1200px; margin:0 auto; }
 
-    /* Section 1: Hero */
-    .hero { text-align: center; padding: 80px 0; background: #fff; border-bottom: 1px solid #e0e0e0; }
-    .hero h1 { font-size: 3rem; margin-bottom: 20px; }
-    .hero p { font-size: 1.25rem; color: #6e6e73; margin-bottom: 40px; }
-    .branches { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
-    .branch-card { width: 280px; background: #fafafa; border-radius: 20px; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.2s; }
-    .branch-card:hover { transform: translateY(-5px); }
-    .branch-card img { width: 100%; border-radius: 12px; margin-bottom: 15px; }
-    .branch-card h3 { font-size: 1.25rem; font-weight: 600; }
+    /* Section 2: Featured Venues Carousel */
+    .carousel { position:relative; overflow:hidden; }
+    .carousel-track {
+      display:flex;
+      gap:20px;
+      overflow-x:auto;
+      scroll-snap-type:x mandatory;
+      padding-bottom:10px;
+    }
+    .carousel-track::-webkit-scrollbar { display:none; }
+    .card {
+      background:#fff;
+      border-radius:20px;
+      flex:0 0 300px;
+      scroll-snap-align:start;
+      box-shadow:0 8px 20px rgba(0,0,0,0.05);
+      position:relative;
+    }
+    .card img { width:100%; border-top-left-radius:20px; border-top-right-radius:20px; }
+    .card-content { padding:20px; }
+    .card-content h3 { margin-bottom:8px; font-size:1.25rem; }
+    .card-content a {
+      color:#0071e3;
+      text-decoration:none;
+      font-size:1rem;
+    }
+    .card-content a:hover { text-decoration:underline; }
 
-    /* Section 2: Horizontal slider */
-    .slider-section { padding: 60px 0; }
-    .slider-section h2 { font-size: 2rem; margin-bottom: 20px; }
-    .slider-wrapper { position: relative; }
-    .slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 20px; padding-bottom: 10px; }
-    .slide { flex: 0 0 320px; background: #fff; border-radius: 20px; scroll-snap-align: start; box-shadow: 0 5px 15px rgba(0,0,0,0.1); position: relative; }
-    .slide img { width: 100%; height: 200px; object-fit: cover; border-top-left-radius: 20px; border-top-right-radius: 20px; }
-    .slide .info { padding: 20px; }
-    .slide .info h3 { font-size: 1.25rem; margin-bottom: 10px; }
-    .slide .info a { font-size: 1rem; }
-    .arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(230,230,235,0.8); border: none; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
-    .arrow.left { left: -20px; }
-    .arrow.right { right: -20px; }
+    .carousel-arrow {
+      position:absolute;
+      top:50%;
+      transform:translateY(-50%);
+      width:44px; height:44px;
+      background:#fff;
+      border-radius:50%;
+      box-shadow:0 2px 8px rgba(0,0,0,0.1);
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer;
+      z-index:10;
+    }
+    .carousel-arrow svg { width:16px; height:16px; color:#1d1d1f; }
+    .carousel-arrow.prev { left:-22px; }
+    .carousel-arrow.next { right:-22px; }
 
-    /* Section 3: Feature tabs + modal */
-    .features-section { padding: 60px 0; background: #fff; }
-    .features-section h2 { font-size: 2rem; margin-bottom: 20px; text-align: center; }
-    .tabs { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
-    .tab { background: #fafafa; border-radius: 16px; padding: 20px 25px; min-width: 140px; text-align: center; font-size: 1rem; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: background 0.2s; }
-    .tab:hover { background: #f0f0f5; }
-    .tab span { font-size: 1.8rem; }
+    /* Section 3: Emoji Tabs + Modals */
+    .tabs-track {
+      display:flex;
+      gap:16px;
+      overflow-x:auto;
+      scroll-snap-type:x mandatory;
+      padding-bottom:10px;
+    }
+    .tabs-track::-webkit-scrollbar { display:none; }
+    .tab {
+      flex:0 0 180px;
+      scroll-snap-align:start;
+      background:#fff;
+      border-radius:16px;
+      padding:24px 16px;
+      text-align:center;
+      box-shadow:0 4px 12px rgba(0,0,0,0.08);
+      cursor:pointer;
+      font-size:0.875rem;
+    }
+    .tab .emoji { font-size:1.5rem; margin-bottom:8px; display:block; }
+    .tab-title { color:#1d1d1f; font-weight:600; font-size:1rem; }
 
-    /* Modal */
-    .modal-backdrop { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.4); display: none; justify-content: center; align-items: center; padding: 20px; }
-    .modal { background: #fff; border-radius: 16px; width: 100%; max-width: 600px; padding: 30px; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-height: 80vh; overflow-y: auto; }
-    .modal h3 { font-size: 1.75rem; margin-bottom: 15px; }
-    .modal p { margin-bottom: 20px; color: #6e6e73; }
-    .modal .links-list a { display: block; margin-bottom: 10px; font-size: 1rem; }
-    .modal-close { position: absolute; top: 15px; right: 15px; background: #e0e0e0; border-radius: 50%; width:28px; height:28px; display: flex; justify-content:center; align-items:center; cursor: pointer; }
+    .modal-backdrop {
+      position:fixed; top:0; left:0; right:0; bottom:0;
+      background:rgba(0,0,0,0.4);
+      display:none; align-items:center; justify-content:center;
+      z-index:20;
+    }
+    .modal {
+      background:#fff;
+      border-radius:20px;
+      width:90%; max-width:600px;
+      padding:32px;
+      position:relative;
+    }
+    .modal h3 { font-size:1.5rem; margin-bottom:12px; }
+    .modal p { color:#6e6e73; margin-bottom:20px; }
+    .modal a {
+      display:block;
+      color:#0071e3;
+      text-decoration:none;
+      margin-bottom:8px;
+    }
+    .modal a:hover { text-decoration:underline; }
+    .modal-close {
+      position:absolute; top:16px; right:16px;
+      width:32px; height:32px;
+      border-radius:50%;
+      background:rgba(0,0,0,0.1);
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer;
+    }
+    .modal-close svg { width:16px; height:16px; color:#1d1d1f; }
 
     /* Footer */
-    footer { background: #fafafa; padding: 40px 0; border-top: 1px solid #e0e0e0; text-align: center; font-size: 0.9rem; color: #6e6e73; }
-
-    .slider::-webkit-scrollbar { display: none; }
-    .slider { -ms-overflow-style: none; scrollbar-width: none; }
+    footer { text-align:center; padding:40px 20px; color:#6e6e73; font-size:0.875rem; }
+    footer a { color:#6e6e73; text-decoration:none; margin:0 8px; }
+    footer a:hover { text-decoration:underline; }
   </style>
 </head>
 <body>
 
-  <!-- Section 1 -->
-  <section class="hero">
-    <div class="container">
-      <h1>Celebrate With Us</h1>
-      <p>Discover our exquisite wedding venues across the country.</p>
-      <div class="branches">
-        <!-- Example branches -->
-        <div class="branch-card">
-          <img src="branch1.jpg" alt="Elegant Garden">
-          <h3>Serenity Garden</h3>
-        </div>
-        <div class="branch-card">
-          <img src="branch2.jpg" alt="Beachside Bliss">
-          <h3>Coastal Haven</h3>
-        </div>
-        <div class="branch-card">
-          <img src="branch3.jpg" alt="Rustic Barn">
-          <h3>Vintage Barnyard</h3>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Section 2 -->
-  <section class="slider-section container">
-    <h2>Our Featured Venues</h2>
-    <div class="slider-wrapper">
-      <button class="arrow left" onclick="scrollSlider(-1)">&#10094;</button>
-      <div class="slider" id="venueSlider">
-        <!-- Repeat .slide blocks as needed -->
-        <div class="slide">
-          <img src="venue1.jpg" alt="Grand Ballroom">
-          <div class="info">
-            <h3>Grand Ballroom</h3>
-            <a href="#" target="_blank">View Details →</a>
+  <section class="section">
+    <div class="container">
+      <h2>Our Featured Venues</h2>
+      <div class="carousel">
+        <div class="carousel-arrow prev" onclick="scrollCarousel(-1)">
+          <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+        </div>
+        <div class="carousel-track" id="carouselTrack">
+          <!-- Repeat 7 cards -->
+          <div class="card">
+            <img src="venue1.jpg" alt="Rooftop Lounge">
+            <div class="card-content">
+              <h3>Rooftop Lounge</h3>
+              <a href="#" target="_blank">View Details →</a>
+            </div>
+          </div>
+          <div class="card">
+            <img src="venue2.jpg" alt="Historic Mansion">
+            <div class="card-content">
+              <h3>Historic Mansion</h3>
+              <a href="#" target="_blank">View Details →</a>
+            </div>
+          </div>
+          <div class="card">
+            <img src="venue3.jpg" alt="Country Estate">
+            <div class="card-content">
+              <h3>Country Estate</h3>
+              <a href="#" target="_blank">View Details →</a>
+            </div>
+          </div>
+          <div class="card">
+            <img src="venue4.jpg" alt="Luxury Pavilion">
+            <div class="card-content">
+              <h3>Luxury Pavilion</h3>
+              <a href="#" target="_blank">View Details →</a>
+            </div>
+          </div>
+          <div class="card">
+            <img src="venue5.jpg" alt="Beachside Bliss">
+            <div class="card-content">
+              <h3>Beachside Bliss</h3>
+              <a href="#" target="_blank">View Details →</a>
+            </div>
+          </div>
+          <div class="card">
+            <img src="venue6.jpg" alt="Serene Garden">
+            <div class="card-content">
+              <h3>Serene Garden</h3>
+              <a href="#" target="_blank">View Details →</a>
+            </div>
+          </div>
+          <div class="card">
+            <img src="venue7.jpg" alt="Vintage Barnyard">
+            <div class="card-content">
+              <h3>Vintage Barnyard</h3>
+              <a href="#" target="_blank">View Details →</a>
+            </div>
           </div>
         </div>
-        <div class="slide"><img src="venue2.jpg" alt="Garden Terrace"><div class="info"><h3>Garden Terrace</h3><a href="#" target="_blank">View Details →</a></div></div>
-        <div class="slide"><img src="venue3.jpg" alt="Beach Pavilion"><div class="info"><h3>Beach Pavilion</h3><a href="#" target="_blank">View Details →</a></div></div>
-        <div class="slide"><img src="venue4.jpg" alt="Rooftop Lounge"><div class="info"><h3>Rooftop Lounge</h3><a href="#" target="_blank">View Details →</a></div></div>
-        <div class="slide"><img src="venue5.jpg" alt="Historic Mansion"><div class="info"><h3>Historic Mansion</h3><a href="#" target="_blank">View Details →</a></div></div>
-        <div class="slide"><img src="venue6.jpg" alt="Country Estate"><div class="info"><h3>Country Estate</h3><a href="#" target="_blank">View Details →</a></div></div>
-        <div class="slide"><img src="venue7.jpg" alt="Luxury Pavilion"><div class="info"><h3>Luxury Pavilion</h3><a href="#" target="_blank">View Details →</a></div></div>
+        <div class="carousel-arrow next" onclick="scrollCarousel(1)">
+          <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+        </div>
       </div>
-      <button class="arrow right" onclick="scrollSlider(1)">&#10095;</button>
     </div>
   </section>
 
   <!-- Section 3 -->
-  <section class="features-section container">
-    <h2>Why Choose Us</h2>
-    <div class="tabs">
-      <div class="tab" data-feature="feature1"><span>🎉</span> Elegant Decor</div>
-      <div class="tab" data-feature="feature2"><span>🍽️</span> Catering</div>
-      <div class="tab" data-feature="feature3"><span>🎶</span> Live Music</div>
-      <div class="tab" data-feature="feature4"><span>📸</span> Photography</div>
-      <div class="tab" data-feature="feature5"><span>🛌</span> Stays</div>
-      <div class="tab" data-feature="feature6"><span>🚗</span> Valet</div>
-      <div class="tab" data-feature="feature7"><span>💐</span> Florals</div>
+  <section class="section" style="background:#eaeaea;">
+    <div class="container">
+      <h2>More Reasons to Celebrate</h2>
+      <div class="tabs-track" id="tabsTrack">
+        <!-- 7 tabs with emojis -->
+        <div class="tab" data-index="0"><span class="emoji">🎶</span><span class="tab-title">Live Music</span></div>
+        <div class="tab" data-index="1"><span class="emoji">🍽️</span><span class="tab-title">Gourmet Dining</span></div>
+        <div class="tab" data-index="2"><span class="emoji">🌸</span><span class="tab-title">Floral Art</span></div>
+        <div class="tab" data-index="3"><span class="emoji">💃</span><span class="tab-title">Dance Floor</span></div>
+        <div class="tab" data-index="4"><span class="emoji">📸</span><span class="tab-title">Photo Booths</span></div>
+        <div class="tab" data-index="5"><span class="emoji">🎂</span><span class="tab-title">Custom Cakes</span></div>
+        <div class="tab" data-index="6"><span class="emoji">🍹</span><span class="tab-title">Cocktail Bars</span></div>
+      </div>
     </div>
   </section>
 
-  <!-- Modal -->
+  <!-- Modals -->
   <div class="modal-backdrop" id="modalBackdrop">
-    <div class="modal">
-      <div class="modal-close" id="modalClose">✕</div>
-      <h3 id="modalTitle">Feature Title</h3>
-      <p id="modalDesc">Select from the options below:</p>
-      <div class="links-list" id="linksList">
-        <!-- Placeholder links -->
+    <div class="modal" id="modalContent">
+      <div class="modal-close" onclick="closeModal()">
+        <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </div>
+      <h3 id="modalTitle">Title</h3>
+      <p id="modalDesc">Description goes here.</p>
+      <!-- 10 links placeholder -->
+      <div id="modalLinks"></div>
     </div>
   </div>
 
   <!-- Footer -->
   <footer>
-    &copy; 2025 Your Wedding Venues &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a>
+    © 2025 VRTM Mandapam •
+    <a href="#">Privacy Policy</a>•
+    <a href="#">Terms of Service</a>
   </footer>
 
   <script>
-    // Slider controls
-    function scrollSlider(direction) {
-      const slider = document.getElementById('venueSlider');
-      const slideWidth = slider.querySelector('.slide').offsetWidth + 20;
-      slider.scrollBy({ left: direction * slideWidth, behavior: 'smooth' });
+    // Carousel scroll
+    function scrollCarousel(direction) {
+      const track = document.getElementById('carouselTrack');
+      const cardWidth = track.querySelector('.card').offsetWidth + 20;
+      track.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
     }
 
-    // Modal logic with 10 placeholder links
-    const tabs = document.querySelectorAll('.tab');
-    const modalBackdrop = document.getElementById('modalBackdrop');
-    const modalClose = document.getElementById('modalClose');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalDesc = document.getElementById('modalDesc');
-    const linksList = document.getElementById('linksList');
+    // Tab → Modal logic
+    const tabData = [
+      { title:'Live Music', desc:'Enjoy curated performances by top artists.' },
+      { title:'Gourmet Dining', desc:'Indulge in custom menus by world-class chefs.' },
+      { title:'Floral Art', desc:'Bespoke floral designs to match your theme.' },
+      { title:'Dance Floor', desc:'State-of-the-art lighting & sound.' },
+      { title:'Photo Booths', desc:'Capture every moment with fun props.' },
+      { title:'Custom Cakes', desc:'Design your dream wedding cake.' },
+      { title:'Cocktail Bars', desc:'Signature drinks mixed on-site.' },
+    ];
+    const linksTemplate = Array.from({length:10},(_,i)=>`<a href="#" target="_blank">Placeholder Link ${i+1} →</a>`).join('');
 
-    const featureData = {
-      feature1: { title: 'Elegant Decor', desc: 'Choose from our decor themes.', links: [
-        { text: 'Classic Rose', url: '#' }, { text: 'Modern Luxe', url: '#' }, { text: 'Boho Chic', url: '#' },
-        { text: 'Vintage Charm', url: '#' }, { text: 'Garden Fresh', url: '#' }, { text: 'Glam Gala', url: '#' },
-        { text: 'Rustic Romance', url: '#' }, { text: 'Minimalist', url: '#' }, { text: 'Tropical', url: '#' },
-        { text: 'Winter Wonderland', url: '#' }
-      ] },
-      feature2: { title: 'Catering', desc: 'Explore our menus.', links: [] },
-      feature3: { title: 'Live Music', desc: 'Enjoy curated performances.', links: [] },
-      feature4: { title: 'Photography', desc: 'Capture every moment.', links: [] },
-      feature5: { title: 'Stays', desc: 'Comfortable accommodations.', links: [] },
-      feature6: { title: 'Valet', desc: 'Seamless arrival service.', links: [] },
-      feature7: { title: 'Florals', desc: 'Custom floral design.', links: [] }
-    };
-
-    tabs.forEach(tab => {
+    document.querySelectorAll('.tab').forEach(tab => {
       tab.addEventListener('click', () => {
-        const key = tab.dataset.feature;
-        const data = featureData[key];
-        modalTitle.textContent = data.title;
-        modalDesc.textContent = data.desc;
-        linksList.innerHTML = '';
-        data.links.forEach(item => {
-          const a = document.createElement('a');
-          a.href = item.url; a.target = '_blank';
-          a.textContent = item.text + ' →';
-          linksList.appendChild(a);
-        });
-        modalBackdrop.style.display = 'flex';
+        const idx = +tab.dataset.index;
+        document.getElementById('modalTitle').textContent = tabData[idx].title;
+        document.getElementById('modalDesc').textContent = tabData[idx].desc;
+        document.getElementById('modalLinks').innerHTML = linksTemplate;
+        document.getElementById('modalBackdrop').style.display = 'flex';
       });
     });
-    modalClose.addEventListener('click', () => modalBackdrop.style.display = 'none');
-    modalBackdrop.addEventListener('click', e => { if (e.target === modalBackdrop) modalBackdrop.style.display = 'none'; });
-  </script>
 
+    function closeModal() {
+      document.getElementById('modalBackdrop').style.display = 'none';
+    }
+  </script>
 </body>
 </html>
