@@ -2,775 +2,112 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>VRTM Wedding Venues</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Link Organizer</title>
   <style>
-    /* Base reset & fonts */
-    * { margin:0; padding:0; box-sizing:border-box }
-    body { 
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
-      background:#f5f5f7; 
-      color:#1d1d1f;
-      overflow-x: hidden;
+    /* Reset and base styling */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     }
-    h1, h2 { font-weight:600; }
-    p { color:#6e6e73; }
 
-    .section { padding:60px 0; width:100%; }
-    .container { max-width:1200px; margin:0 auto; padding:0 20px; }
-
-    /* Hero Section - Apple Style */
-    .hero {
-      background: #f5f5f7;
+    body {
+      background-color: #f5f5f7;
       color: #1d1d1f;
-      min-height: 70vh;
-      display: flex;
-      align-items: center;
-      position: relative;
-      width: 100%;
+      padding: 40px;
     }
-    
-    .hero-content {
+
+    h1 {
       text-align: center;
-      width: 100%;
+      font-size: 2.5rem;
+      margin-bottom: 40px;
     }
-    
-    .hero .subtitle {
-      font-size: 21px;
-      line-height: 1.19048;
-      font-weight: 400;
-      letter-spacing: .011em;
-      color: #1d1d1f;
-      margin-bottom: 6px;
+
+    .container {
+      max-width: 960px;
+      margin: auto;
     }
-    
-    .hero h1 {
-      font-size: clamp(32px, 7vw, 80px);
-      line-height: 1.05;
-      font-weight: 600;
-      letter-spacing: -.003em;
-      color: #1d1d1f;
+
+    .category {
+      background-color: #ffffff;
+      border-radius: 20px;
       margin-bottom: 20px;
-    }
-    
-    .hero p {
-      font-size: 21px;
-      line-height: 1.381;
-      font-weight: 400;
-      letter-spacing: .011em;
-      color: #86868b;
-      margin-bottom: 30px;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    
-    .cta-buttons {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    
-    .cta-button {
-      display: inline-block;
-      background: #0071e3;
-      color: white;
-      padding: 12px 24px;
-      border-radius: 980px;
-      text-decoration: none;
-      font-weight: 400;
-      font-size: 17px;
-      line-height: 1.17648;
-      letter-spacing: -.022em;
-      transition: all 0.3s ease;
-      min-width: 120px;
-      text-align: center;
-    }
-    
-    .cta-button:hover {
-      background: #0077ed;
-    }
-    
-    .cta-button.secondary {
-      background: transparent;
-      color: #0071e3;
-      border: 1px solid #0071e3;
-    }
-    
-    .cta-button.secondary:hover {
-      background: #0071e3;
-      color: white;
-    }
-
-    /* Section 2: Featured Venues - Apple Carousel Style */
-    .venues-section {
-      background: white;
-      width: 100%;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
       overflow: hidden;
     }
-    
-    .venues-section h2 {
-      text-align: center;
-      font-size: 48px;
-      line-height: 1.08349;
+
+    .category-header {
+      padding: 20px 30px;
+      font-size: 1.25rem;
       font-weight: 600;
-      letter-spacing: -.003em;
-      margin-bottom: 20px;
-      color: #1d1d1f;
-    }
-    
-    .venues-section .subtitle {
-      text-align: center;
-      font-size: 21px;
-      line-height: 1.381;
-      font-weight: 400;
-      letter-spacing: .011em;
-      color: #86868b;
-      margin-bottom: 50px;
-    }
-
-    .carousel-container {
-      position: relative;
-      width: 100%;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    .carousel { 
-      position: relative; 
-      overflow: hidden; 
-      width: 100%;
-      padding: 0 60px;
-    }
-    
-    .carousel-track {
-      display: flex;
-      gap: 30px;
-      transition: transform 0.5s ease;
-      width: fit-content;
-    }
-    
-    .card {
-      background: #fbfbfd;
-      border-radius: 18px;
-      width: 400px;
-      height: 500px;
-      position: relative;
-      border: 1px solid #d2d2d7;
-      transition: all 0.3s ease;
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-    
-    .card:hover {
-      transform: scale(1.02);
-      box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-    }
-    
-    .card img { 
-      width: 100%; 
-      height: 300px;
-      object-fit: cover;
-      border-top-left-radius: 18px; 
-      border-top-right-radius: 18px;
-    }
-    
-    .card-content { 
-      padding: 30px 25px; 
-      height: 200px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    
-    .card-content h3 { 
-      font-size: 24px;
-      line-height: 1.16667;
-      font-weight: 600;
-      letter-spacing: .009em;
-      color: #1d1d1f;
-      margin-bottom: 8px;
-    }
-    
-    .card-content p {
-      font-size: 17px;
-      line-height: 1.47059;
-      font-weight: 400;
-      letter-spacing: -.022em;
-      color: #86868b;
-      margin-bottom: 15px;
-    }
-    
-    .card-content a {
-      color: #0071e3;
-      text-decoration: none;
-      font-size: 17px;
-      line-height: 1.47059;
-      font-weight: 400;
-      letter-spacing: -.022em;
-    }
-    
-    .card-content a:hover { 
-      text-decoration: underline; 
-    }
-
-    .carousel-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 44px; 
-      height: 44px;
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(0,0,0,0.04);
-      border-radius: 50%;
-      display: flex; 
-      align-items: center; 
-      justify-content: center;
       cursor: pointer;
-      z-index: 10;
-      transition: all 0.3s ease;
-    }
-    
-    .carousel-arrow:hover {
-      background: rgba(255,255,255,0.98);
-      border-color: rgba(0,0,0,0.08);
-    }
-    
-    .carousel-arrow svg { 
-      width: 18px; 
-      height: 18px; 
-      color: #1d1d1f; 
-    }
-    
-    .carousel-arrow.prev { 
-      left: 20px; 
-    }
-    
-    .carousel-arrow.next { 
-      right: 20px; 
+      transition: background-color 0.2s ease;
     }
 
-    .carousel-indicators {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 40px;
-    }
-    
-    .indicator {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #d2d2d7;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    
-    .indicator.active {
-      background: #1d1d1f;
+    .category-header:hover {
+      background-color: #f0f0f5;
     }
 
-    /* Section 3: Services - Individual Card Shadows */
-    .services-section {
-      background: #f5f5f7;
-      width: 100%;
-      overflow: hidden;
-    }
-    
-    .services-section h2 {
-      text-align: center;
-      font-size: 48px;
-      line-height: 1.08349;
-      font-weight: 600;
-      letter-spacing: -.003em;
-      margin-bottom: 20px;
-      color: #1d1d1f;
-    }
-    
-    .services-section .subtitle {
-      text-align: center;
-      font-size: 21px;
-      line-height: 1.381;
-      font-weight: 400;
-      letter-spacing: .011em;
-      color: #86868b;
-      margin-bottom: 50px;
+    .links {
+      display: none;
+      padding: 20px 30px;
+      border-top: 1px solid #e0e0e0;
     }
 
-    .services-carousel {
-      position: relative;
-      width: 100%;
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 60px;
-    }
-
-    .tabs-track {
-      display: flex;
-      gap: 25px;
-      transition: transform 0.5s ease;
-      width: fit-content;
-    }
-    
-    .tab {
-      width: 280px;
-      height: 320px;
-      background: #fff;
-      border-radius: 18px;
-      padding: 40px 30px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      border: 1px solid #d2d2d7;
-      position: relative;
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-    
-    .tab::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, rgba(0,113,227,0.02) 0%, rgba(118,75,162,0.02) 100%);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    
-    .tab:hover::before {
-      opacity: 1;
-    }
-    
-    .tab:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-      border-color: rgba(0,113,227,0.1);
-    }
-    
-    .tab .emoji { 
-      font-size: 56px; 
-      margin-bottom: 20px; 
+    .links a {
       display: block;
-      transition: transform 0.3s ease;
-    }
-    
-    .tab:hover .emoji {
-      transform: scale(1.1);
-    }
-    
-    .tab-title { 
-      color: #1d1d1f; 
-      font-weight: 600; 
-      font-size: 21px;
-      line-height: 1.19048;
-      letter-spacing: .011em;
       margin-bottom: 10px;
-    }
-    
-    .tab-desc {
-      color: #86868b;
-      font-size: 16px;
-      line-height: 1.47059;
-      font-weight: 400;
-      letter-spacing: -.022em;
+      color: #0071e3;
+      text-decoration: none;
+      font-size: 1rem;
+      word-break: break-word;
     }
 
-    .services-arrows {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 44px; 
-      height: 44px;
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(0,0,0,0.04);
-      border-radius: 50%;
-      display: flex; 
-      align-items: center; 
-      justify-content: center;
-      cursor: pointer;
-      z-index: 10;
-      transition: all 0.3s ease;
-    }
-    
-    .services-arrows:hover {
-      background: rgba(255,255,255,0.98);
-      border-color: rgba(0,0,0,0.08);
-    }
-    
-    .services-arrows svg { 
-      width: 18px; 
-      height: 18px; 
-      color: #1d1d1f; 
-    }
-    
-    .services-arrows.prev { 
-      left: 20px; 
-    }
-    
-    .services-arrows.next { 
-      right: 20px; 
+    .links a:hover {
+      text-decoration: underline;
     }
 
-    .services-indicators {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 40px;
-    }
-    
-    .services-indicator {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #d2d2d7;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    
-    .services-indicator.active {
-      background: #1d1d1f;
+    .open .links {
+      display: block;
     }
 
-    /* Footer */
-    footer { 
-      text-align:center; 
-      padding:60px 20px; 
-      color:#6e6e73; 
-      font-size:0.875rem;
-      background: #1d1d1f;
-      color: #f5f5f7;
-      width: 100%;
-    }
-    
-    footer a { 
-      color:#f5f5f7; 
-      text-decoration:none; 
-      margin:0 12px; 
-    }
-    
-    footer a:hover { text-decoration:underline; }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .carousel-arrow, .services-arrows { display: none; }
-      .hero h1 { font-size: 2.5rem; }
-      .hero p { font-size: 1.1rem; }
-      .section { padding: 40px 0; }
-      .container { padding: 0 15px; }
-      .carousel, .services-carousel { padding: 0 20px; }
+    @media (max-width: 600px) {
+      .category-header, .links {
+        padding: 15px 20px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="container">
-      <div class="hero-content">
-        <div class="subtitle">The magic begins here.</div>
-        <h1>Dream Wedding Venues</h1>
-        <p>Discover extraordinary spaces where love stories unfold and memories are made to last forever.</p>
-        <div class="cta-buttons">
-          <a href="#venues" class="cta-button">Explore Venues</a>
-          <a href="#services" class="cta-button secondary">View Services</a>
-        </div>
+  <h1>My Link Hub</h1>
+  <div class="container">
+
+    <!-- New Category: Featured Wedding Links -->
+    <div class="category">
+      <div class="category-header" onclick="this.parentElement.classList.toggle('open')">Featured Wedding Links</div>
+      <div class="links">
+        <a href="https://freshvoicehub.com/air-conditioned-wedding-halls-in-chennai-to-book-now/" target="wedding in chennai">https://freshvoicehub.com/air-conditioned-wedding-halls-in-chennai-to-book-now/</a>
+        <a href="https://serviceprofessionalsnetwork.com/members/radha/activity/1199557/" target="_blank">https://serviceprofessionalsnetwork.com/members/radha/activity/1199557/</a>
+        <a href="https://pin.it/4fLXUMqLu" target="_blank">https://pin.it/4fLXUMqLu</a>
+        <a href="https://www.behance.net/gallery/229029635/Book-the-Perfect-Wedding-Venue-Today-" target="_blank">https://www.behance.net/gallery/229029635/Book-the-Perfect-Wedding-Venue-Today-</a>
+        <a href="https://www.spreaker.com/episode/chennai-banquet-halls-perfecting-traditional-indian-weddings--66694118" target="_blank">https://www.spreaker.com/episode/chennai-banquet-halls-perfecting-traditional-indian-weddings--66694118</a>
+        <a href="https://www.4shared.com/web/preview/pdf/B0BICVPuku?" target="_blank">https://www.4shared.com/web/preview/pdf/B0BICVPuku?</a>
       </div>
     </div>
-  </section>
 
-  <!-- Section 2: Featured Venues -->
-  <section class="section venues-section" id="venues">
-    <div class="container">
-      <h2>Our Featured Venues</h2>
-      <div class="subtitle">Take a look at what's possible right now.</div>
-      <div class="carousel-container">
-        <div class="carousel">
-          <div class="carousel-arrow prev" onclick="scrollVenueCarousel(-1)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 18l-6-6 6-6"/></svg>
-          </div>
-          <div class="carousel-track" id="carouselTrack">
-            <div class="card">
-              <img src="https://images.unsplash.com/photo-1519167758481-83f29c853cb9?w=500&h=400&fit=crop" alt="Rooftop Lounge">
-              <div class="card-content">
-                <h3>Rooftop Lounge</h3>
-                <p>Stunning city views and elegant atmosphere</p>
-                <a href="#" target="_blank">View Details →</a>
-              </div>
-            </div>
-            <div class="card">
-              <img src="https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?w=500&h=400&fit=crop" alt="Historic Mansion">
-              <div class="card-content">
-                <h3>Historic Mansion</h3>
-                <p>Classic elegance with modern amenities</p>
-                <a href="#" target="_blank">View Details →</a>
-              </div>
-            </div>
-            <div class="card">
-              <img src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=500&h=400&fit=crop" alt="Country Estate">
-              <div class="card-content">
-                <h3>Country Estate</h3>
-                <p>Rustic charm in a peaceful setting</p>
-                <a href="#" target="_blank">View Details →</a>
-              </div>
-            </div>
-            <div class="card">
-              <img src="https://images.unsplash.com/photo-1481833761820-0509d3217039?w=500&h=400&fit=crop" alt="Luxury Pavilion">
-              <div class="card-content">
-                <h3>Luxury Pavilion</h3>
-                <p>Modern design with premium facilities</p>
-                <a href="#" target="_blank">View Details →</a>
-              </div>
-            </div>
-            <div class="card">
-              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=400&fit=crop" alt="Beachside Bliss">
-              <div class="card-content">
-                <h3>Beachside Bliss</h3>
-                <p>Ocean views and romantic sunsets</p>
-                <a href="#" target="_blank">View Details →</a>
-              </div>
-            </div>
-            <div class="card">
-              <img src="https://images.unsplash.com/photo-1464207687429-7505649dae38?w=500&h=400&fit=crop" alt="Serene Garden">
-              <div class="card-content">
-                <h3>Serene Garden</h3>
-                <p>Natural beauty and tranquil ambiance</p>
-                <a href="#" target="_blank">View Details →</a>
-              </div>
-            </div>
-            <div class="card">
-              <img src="https://images.unsplash.com/photo-1502444330042-d1a1ddf9bb5b?w=500&h=400&fit=crop" alt="Vintage Barnyard">
-              <div class="card-content">
-                <h3>Vintage Barnyard</h3>
-                <p>Authentic countryside celebration space</p>
-                <a href="#" target="_blank">View Details →</a>
-              </div>
-            </div>
-          </div>
-          <div class="carousel-arrow next" onclick="scrollVenueCarousel(1)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 6l6 6-6 6"/></svg>
-          </div>
-        </div>
-        <div class="carousel-indicators" id="venueIndicators"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section 3: Services -->
-  <section class="section services-section" id="services">
-    <div class="container">
-      <h2>More Reasons to Celebrate</h2>
-      <div class="subtitle">Everything you need for the perfect day.</div>
-      <div class="services-carousel">
-        <div class="services-arrows prev" onclick="scrollServicesCarousel(-1)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 18l-6-6 6-6"/></svg>
-        </div>
-        <div class="tabs-track" id="tabsTrack">
-          <div class="tab">
-            <span class="emoji">🎶</span>
-            <div class="tab-title">Live Music</div>
-            <div class="tab-desc">Curated performances by top artists</div>
-          </div>
-          <div class="tab">
-            <span class="emoji">🍽️</span>
-            <div class="tab-title">Gourmet Dining</div>
-            <div class="tab-desc">Custom menus by world-class chefs</div>
-          </div>
-          <div class="tab">
-            <span class="emoji">🌸</span>
-            <div class="tab-title">Floral Art</div>
-            <div class="tab-desc">Bespoke designs to match your theme</div>
-          </div>
-          <div class="tab">
-            <span class="emoji">💃</span>
-            <div class="tab-title">Dance Floor</div>
-            <div class="tab-desc">State-of-the-art lighting and sound</div>
-          </div>
-          <div class="tab">
-            <span class="emoji">📸</span>
-            <div class="tab-title">Photo Booths</div>
-            <div class="tab-desc">Capture moments with fun props</div>
-          </div>
-          <div class="tab">
-            <span class="emoji">🎂</span>
-            <div class="tab-title">Custom Cakes</div>
-            <div class="tab-desc">Design your dream wedding cake</div>
-          </div>
-          <div class="tab">
-            <span class="emoji">🍹</span>
-            <div class="tab-title">Cocktail Bars</div>
-            <div class="tab-desc">Signature drinks mixed on-site</div>
-          </div>
-        </div>
-        <div class="services-arrows next" onclick="scrollServicesCarousel(1)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 6l6 6-6 6"/></svg>
-        </div>
-      </div>
-      <div class="services-indicators" id="servicesIndicators"></div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      © 2025 VRTM Mandapam •
-      <a href="#">Privacy Policy</a> •
-      <a href="#">Terms of Service</a> •
-      <a href="#">Contact Us</a>
-    </div>
-  </footer>
+  </div>
 
   <script>
-    // Smooth scrolling for anchor links
-    document.querySelector('.cta-button').addEventListener('click', function(e) {
-      e.preventDefault();
-      document.getElementById('venues').scrollIntoView({ behavior: 'smooth' });
-    });
-
-    document.querySelector('.cta-button.secondary').addEventListener('click', function(e) {
-      e.preventDefault();
-      document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
-    });
-
-    // Venues Carousel functionality
-    let venueCurrentSlide = 0;
-    const venueCarouselTrack = document.getElementById('carouselTrack');
-    const venueCards = venueCarouselTrack.querySelectorAll('.card');
-    const venueIndicatorsContainer = document.getElementById('venueIndicators');
-
-    // Create venue indicators
-    for (let i = 0; i < Math.ceil(venueCards.length / 3); i++) {
-      const indicator = document.createElement('div');
-      indicator.className = 'indicator';
-      if (i === 0) indicator.classList.add('active');
-      indicator.addEventListener('click', () => goToVenueSlide(i));
-      venueIndicatorsContainer.appendChild(indicator);
-    }
-
-    function scrollVenueCarousel(direction) {
-      const cardWidth = venueCards[0].offsetWidth + 30; // card width + gap
-      const slidesToShow = window.innerWidth > 768 ? 3 : 1;
-      const maxSlides = Math.ceil(venueCards.length / slidesToShow) - 1;
-      
-      venueCurrentSlide += direction;
-      
-      if (venueCurrentSlide < 0) venueCurrentSlide = maxSlides;
-      if (venueCurrentSlide > maxSlides) venueCurrentSlide = 0;
-      
-      const translateX = -(venueCurrentSlide * cardWidth * slidesToShow);
-      venueCarouselTrack.style.transform = `translateX(${translateX}px)`;
-      
-      updateVenueIndicators();
-    }
-
-    function goToVenueSlide(index) {
-      venueCurrentSlide = index;
-      const cardWidth = venueCards[0].offsetWidth + 30;
-      const slidesToShow = window.innerWidth > 768 ? 3 : 1;
-      const translateX = -(venueCurrentSlide * cardWidth * slidesToShow);
-      venueCarouselTrack.style.transform = `translateX(${translateX}px)`;
-      updateVenueIndicators();
-    }
-
-    function updateVenueIndicators() {
-      const indicators = venueIndicatorsContainer.querySelectorAll('.indicator');
-      indicators.forEach((indicator, index) => {
-        indicator.classList.toggle('active', index === venueCurrentSlide);
-      });
-    }
-
-    // Services Carousel functionality
-    let servicesCurrentSlide = 0;
-    const servicesCarouselTrack = document.getElementById('tabsTrack');
-    const serviceTabs = servicesCarouselTrack.querySelectorAll('.tab');
-    const servicesIndicatorsContainer = document.getElementById('servicesIndicators');
-
-    // Create services indicators
-    for (let i = 0; i < Math.ceil(serviceTabs.length / 4); i++) {
-      const indicator = document.createElement('div');
-      indicator.className = 'services-indicator';
-      if (i === 0) indicator.classList.add('active');
-      indicator.addEventListener('click', () => goToServicesSlide(i));
-      servicesIndicatorsContainer.appendChild(indicator);
-    }
-
-    function scrollServicesCarousel(direction) {
-      const tabWidth = serviceTabs[0].offsetWidth + 25; // tab width + gap
-      const tabsToShow = window.innerWidth > 768 ? 4 : 1;
-      const maxSlides = Math.ceil(serviceTabs.length / tabsToShow) - 1;
-      
-      servicesCurrentSlide += direction;
-      
-      if (servicesCurrentSlide < 0) servicesCurrentSlide = maxSlides;
-      if (servicesCurrentSlide > maxSlides) servicesCurrentSlide = 0;
-      
-      const translateX = -(servicesCurrentSlide * tabWidth * tabsToShow);
-      servicesCarouselTrack.style.transform = `translateX(${translateX}px)`;
-      
-      updateServicesIndicators();
-    }
-
-    function goToServicesSlide(index) {
-      servicesCurrentSlide = index;
-      const tabWidth = serviceTabs[0].offsetWidth + 25;
-      const tabsToShow = window.innerWidth > 768 ? 4 : 1;
-      const translateX = -(servicesCurrentSlide * tabWidth * tabsToShow);
-      servicesCarouselTrack.style.transform = `translateX(${translateX}px)`;
-      updateServicesIndicators();
-    }
-
-    function updateServicesIndicators() {
-      const indicators = servicesIndicatorsContainer.querySelectorAll('.services-indicator');
-      indicators.forEach((indicator, index) => {
-        indicator.classList.toggle('active', index === servicesCurrentSlide);
-      });
-    }
-
-    // Touch/swipe support for mobile
-    let startX = 0;
-    let currentElement = null;
-
-    function handleTouchStart(e) {
-      startX = e.touches[0].clientX;
-      currentElement = e.currentTarget;
-    }
-
-    function handleTouchEnd(e) {
-      if (!startX || !currentElement) return;
-      
-      const endX = e.changedTouches[0].clientX;
-      const diffX = startX - endX;
-      
-      if (Math.abs(diffX) > 50) { // minimum swipe distance
-        if (currentElement.closest('.venues-section')) {
-          scrollVenueCarousel(diffX > 0 ? 1 : -1);
-        } else if (currentElement.closest('.services-section')) {
-          scrollServicesCarousel(diffX > 0 ? 1 : -1);
-        }
+    // Optional enhancement: show link text from URL
+    document.querySelectorAll('.links a').forEach(link => {
+      if (!link.textContent.trim()) {
+        link.textContent = link.href;
       }
-      
-      startX = 0;
-      currentElement = null;
-    }
-
-    // Add touch events
-    venueCarouselTrack.addEventListener('touchstart', handleTouchStart);
-    venueCarouselTrack.addEventListener('touchend', handleTouchEnd);
-    servicesCarouselTrack.addEventListener('touchstart', handleTouchStart);
-    servicesCarouselTrack.addEventListener('touchend', handleTouchEnd);
-
-    // Auto-play carousels
-    setInterval(() => {
-      scrollVenueCarousel(1);
-    }, 5000);
-
-    setInterval(() => {
-      scrollServicesCarousel(1);
-    }, 6000);
+    });
   </script>
+
 </body>
 </html>
